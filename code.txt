@@ -1,0 +1,62 @@
+#define CAYENNE_PRINT Serial
+#include <CayenneMQTTESP8266.h>
+// WiFi network info.
+char ssid[] ="projectload";
+char wifiPassword[] ="123456789";
+int a,b,c,d,e;
+// Cayenne authentication info. This should be obtained from the 
+Cayenne Dashboard.
+char username[]="7980b560-cf0f-11ec-9f5b-45181495093e";
+char password[]="9754b0bc01305d3807073c111d2d7aade6b27737";
+char clientID[]="6dda9d00-cf11-11ec-a681-73c9540e1265";
+//ranjith007r7@gmail.com -- password-123456789
+#define loadcell A0
+#define BUZZER D8
+void setup() {
+ Cayenne.begin(username, password, clientID, ssid, wifiPassword);
+ Serial.begin(9600);
+pinMode(loadcell,INPUT);
+pinMode(BUZZER,OUTPUT);
+}
+void loop() {
+ // put your main code here, to run repeatedly:
+ Cayenne.loop();
+int a=analogRead(loadcell)/10.24;
+68
+ delay(300);
+ //1024/10.24=100% load cell
+Cayenne.virtualWrite(1,a);
+delay(300);
+ if(a<=35)
+ 
+{
+ digitalWrite(BUZZER,HIGH);
+ int a2=1,b2=0,c2=0;
+ 
+Cayenne.virtualWrite(2,a2);
+Cayenne.virtualWrite(3,b2);
+Cayenne.virtualWrite(4,c2); 
+ 
+}
+ else if((a>=40)&&(a<=50))
+ 
+{
+ digitalWrite(BUZZER,HIGH);
+delay(500);
+ digitalWrite(BUZZER,LOW);
+ int a2=0,b2=1,c2=0;
+ 
+Cayenne.virtualWrite(2,a2);
+Cayenne.virtualWrite(3,b2);
+Cayenne.virtualWrite(4,c2); 
+ 
+}
+else
+ 
+{
+ digitalWrite(BUZZER,LOW);
+ int a2=0,b2=0,c2=1;
+ 
+Cayenne.virtualWrite(2,a2);
+Cayenne.virtualWrite(3,b2);
+Cayenne.virtualWrite(4,c2);
